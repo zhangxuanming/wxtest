@@ -481,9 +481,8 @@ $signPackage = $jssdk->GetSignPackage();
 	    var sig = "http://wxapi.wordhi.com/ticket?url="+ encodeURIComponent(window.location.href.split('#')[0]);
 	    var myconfig = function(opt){
 		    opt = opt ? opt : {};
-		    console.log(opt);
 		    var me = {};
-		    if (opt.debug !== true || opt.debug !== "true") {
+		    if (opt.debug !== true) {
 			    me.shareLink = 'http://wx.wordhi.com';
 			    me.shareImgUrl = 'http://wx.wordhi.com/src/img/badge/';
 			    me.shareImg = 'http://wx.wordhi.com/src/img/badge/stamp_3.png';
