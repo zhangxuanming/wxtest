@@ -523,6 +523,7 @@ $signPackage = $jssdk->GetSignPackage();
 
 	    wx.ready(function() {
 		    var thisLink = myconfig({debug:true});
+		    console.log(thisLink);
 		    var shareTitle = "嗨！冒险 之 逃离深山 大冒险 现在起动啦！ 快来嗨一把吧！";
 		    var shareDesc = '你要逃离深山，看你啦';
 		    var shareLink = thisLink.shareLink;
