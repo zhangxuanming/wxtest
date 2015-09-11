@@ -1,2 +1,2 @@
-# wxtest
-测试微信号
+# 1pagestory
+独立页面story
