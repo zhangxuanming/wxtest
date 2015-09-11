@@ -14,7 +14,7 @@ class JSSDK {
     // 注意 URL 一定要动态获取，不能 hardcode.
     $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
     $url = "$protocol$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-
+	  var_dump($url);
     $timestamp = time();
     $nonceStr = $this->createNonceStr();
 
@@ -50,7 +50,6 @@ class JSSDK {
       $accessToken = $this->getAccessToken();
       // 如果是企业号用以下 URL 获取 ticket
       // $url = "https://qyapi.weixin.qq.com/cgi-bin/get_jsapi_ticket?access_token=$accessToken";
-      //https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET
       $url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&access_token=$accessToken";
       $res = json_decode($this->httpGet($url));
       $ticket = $res->ticket;
