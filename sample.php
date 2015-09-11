@@ -32,6 +32,8 @@ $signPackage = $jssdk->GetSignPackage();
     nonceStr: '<?php echo $signPackage["nonceStr"];?>',
     signature: '<?php echo $signPackage["signature"];?>',
     jsApiList: [
+	    'onMenuShareTimeline',
+	    'onMenuShareAppMessage'
       // 所有要调用的 API 都要加到这个列表中
     ]
   });
