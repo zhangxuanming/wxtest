@@ -2,6 +2,11 @@
 class JSSDK {
   private $appId;
   private $appSecret;
+	private $debugCurlAccessToken;
+	private $debugCurlJSApiTicket;
+	private $debugFileAccessToken;
+	private $debugFileJSApiTicket;
+	private $debugRequestUrl;
 
   public function __construct($appId, $appSecret) {
     $this->appId = $appId;
@@ -14,7 +19,7 @@ class JSSDK {
     // 注意 URL 一定要动态获取，不能 hardcode.
     $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
     $url = "$protocol$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-	  var_dump($url);
+	  $this->debugRequestUrl = $url;
     $timestamp = time();
     $nonceStr = $this->createNonceStr();
 
@@ -34,6 +39,17 @@ class JSSDK {
     return $signPackage; 
   }
 
+	public function getDebugOutPut(){
+		$arr = [
+			"curlAccessToken" => $this->debugCurlAccessToken,
+			"curlJSApiTicket" => $this->debugCurlJSApiTicket,
+			"fileAccessToken" => $this->debugFileAccessToken,
+			"fileJSApiTicket" => $this->debugFileJSApiTicket,
+			"currentRequestUrl" => $this->debugRequestUrl
+		];
+		return $arr;
+	}
+
   private function createNonceStr($length = 16) {
     $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     $str = "";
@@ -52,6 +68,9 @@ class JSSDK {
       // $url = "https://qyapi.weixin.qq.com/cgi-bin/get_jsapi_ticket?access_token=$accessToken";
       $url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&access_token=$accessToken";
       $res = json_decode($this->httpGet($url));
+
+		$this->debugCurlJSApiTicket = $res;
+
       $ticket = $res->ticket;
       if ($ticket) {
         $data->expire_time = time() + 7000;
@@ -62,6 +81,7 @@ class JSSDK {
       }
     } else {
       $ticket = $data->jsapi_ticket;
+	    $this->debugFileJSApiTicket = $data;
     }
 
     return $ticket;
@@ -76,6 +96,7 @@ class JSSDK {
       //https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET
       $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=$this->appId&secret=$this->appSecret";
       $res = json_decode($this->httpGet($url));
+	    $this->debugCurlAccessToken = $res;
       $access_token = $res->access_token;
       if ($access_token) {
         $data->expire_time = time() + 7000;
@@ -86,6 +107,7 @@ class JSSDK {
       }
     } else {
       $access_token = $data->access_token;
+	    $this->debugFileAccessToken = $data;
     }
     return $access_token;
   }
@@ -100,7 +122,6 @@ class JSSDK {
 
     $res = curl_exec($curl);
     curl_close($curl);
-	  var_dump($res);
     return $res;
   }
 }
