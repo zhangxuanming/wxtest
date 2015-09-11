@@ -101,7 +101,7 @@ class JSSDK {
 
     $res = curl_exec($curl);
     curl_close($curl);
-
+	  var_dump($res);
     return $res;
   }
 }
