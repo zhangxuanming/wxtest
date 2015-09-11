@@ -1,3 +1,9 @@
+<?php
+require_once "jssdk.php";
+$jssdk = new JSSDK("wx05fe1a08ee8d2a7b", "684bc37baad5b76148c9344275d83682");
+$signPackage = $jssdk->GetSignPackage();
+//var_dump($jssdk->getDebugOutPut());
+?>
 <!DOCTYPE html>
 <html>
 <head lang = "en">
@@ -473,27 +479,55 @@
 
     $(document).ready(function(){
 	    var sig = "http://wxapi.wordhi.com/ticket?url="+ encodeURIComponent(window.location.href.split('#')[0]);
-	    $.getJSON(sig,function(data){
-		    wx.config({
-			    debug: true,
-			    appId: data.appID,
-			    timestamp: data.timestamp,
-			    nonceStr: data.nonceStr,
-			    signature: data.signature,
-			    jsApiList: [
-				    'onMenuShareTimeline',
-				    'onMenuShareAppMessage',
-				    'onMenuShareQQ',
-				    'onMenuShareWeibo'
-			    ]
-		    });
+	    var myconfig = function(opt){
+		    var me = {};
+		    if (opt.debug == true || opt.debug == "true") {
+			    me.shareLink = 'http://wx.wordhi.com';
+			    me.shareImgUrl = 'http://wx.wordhi.com/src/img/badge/';
+			    me.shareImg = 'http://wx.wordhi.com/src/img/badge/stamp_3.png';
+		    }else{
+			    me.shareLink = 'http://dev.muyuruhai.com';
+			    me.shareImgUrl = 'http://dev.muyuruhai.com/src/img/badge/';
+			    me.shareImg = 'http://dev.muyuruhai.com/img/badge/stamp_3.png';
+		    }
+		    return me;
+	    };
+//	    $.getJSON(sig,function(data){
+//		    wx.config({
+//			    debug: true,
+//			    appId: data.appID,
+//			    timestamp: data.timestamp,
+//			    nonceStr: data.nonceStr,
+//			    signature: data.signature,
+//			    jsApiList: [
+//				    'onMenuShareTimeline',
+//				    'onMenuShareAppMessage',
+//				    'onMenuShareQQ',
+//				    'onMenuShareWeibo'
+//			    ]
+//		    });
+//	    });
+	    wx.config({
+		    debug: true,
+		    appId: '<?php echo $signPackage["appId"];?>',
+		    timestamp: <?php echo $signPackage["timestamp"];?>,
+		    nonceStr: '<?php echo $signPackage["nonceStr"];?>',
+		    signature: '<?php echo $signPackage["signature"];?>',
+		    jsApiList: [
+			    'onMenuShareTimeline',
+			    'onMenuShareAppMessage',
+			    'onMenuShareQQ',
+			    'onMenuShareWeibo'
+		    ]
 	    });
+
 	    wx.ready(function() {
+		    var thisLink = myconfig({debug:true});
 		    var shareTitle = "嗨！冒险 之 逃离深山 大冒险 现在起动啦！ 快来嗨一把吧！";
 		    var shareDesc = '你要逃离深山，看你啦';
-		    var shareLink = 'http://wx.wordhi.com';
-		    var shareImgUrl ='http://wx.wordhi.com/src/img/badge/';
-		    var shareImg = 'http://wx.wordhi.com/src/img/badge/stamp_3.png';
+		    var shareLink = thisLink.shareLink;
+		    var shareImgUrl =thisLink.shareImgUrl;
+		    var shareImg = thisLink.shareImg;
             wx.checkJsApi({
                 jsApiList: ['chooseImage'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
                 success: function(res) {
