@@ -121,7 +121,7 @@ class JSSDK {
 		$contentArr = [
 			'response'=>$content,
 			'timestamp'=>time(),
-			'date' => date("d F Y H:i:s", time())
+			'date' => date("y-m-d H:i:s", time())
 		];
 		$fsize = filesize($filename);
 		if ($fsize > 1 * 1024 * 1024) {
