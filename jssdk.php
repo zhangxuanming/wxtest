@@ -36,10 +36,7 @@ class JSSDK {
 	      "rawString" => $string
 	  );
 
-	  $this->log('call.log',[
-		  'signature'=>$signature,
-		  'time'=>time(),
-	  ]);
+	  $this->log('call.log',$signature);
 	  return $signPackage;
   }
 
@@ -73,10 +70,7 @@ class JSSDK {
 		  $url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&access_token=$accessToken";
 		  $res = json_decode($this->httpGet($url));
 		  $this->debugCurlJSApiTicket = $res;
-		  $this->log('curlJSApi.log',[
-			  'res'=>$res,
-			  'time'=>time(),
-		  ]);
+		  $this->log('curlJSApi.log',$res);
 
 		  $ticket = $res->ticket;
 		  if ($ticket) {
@@ -105,10 +99,7 @@ class JSSDK {
       $res = json_decode($this->httpGet($url));
 
 	    $this->debugCurlAccessToken = $res;
-	    $this->log('curlToken.log',[
-		    'res'=>$res,
-		    'time'=>time(),
-	    ]);
+	    $this->log('curlToken.log',$res);
 
       $access_token = $res->access_token;
       if ($access_token) {
@@ -127,7 +118,17 @@ class JSSDK {
 
 	//log到文件
 	private function log($filename,$content){
-		$f = file_put_contents('log/'.$filename,json_encode($content)."\n",FILE_APPEND);
+		$timeArr = [
+			'response'=>$content,
+			'timestamp'=>time(),
+			'date' => date("d F Y H:i:s", time())
+		];
+		$fsize = filesize($filename);
+		if ($fsize > 1 * 1024 * 1024) {
+			$f = file_put_contents('log/'.$filename,json_encode($content)."\n");
+		} else{
+			$f = file_put_contents('log/'.$filename,json_encode($content)."\n",FILE_APPEND);
+		}
 		return $f;
 	}
 
