@@ -1,7 +1,7 @@
 <?php
 class JSSDK {
-  private $appId;
-  private $appSecret;
+	private $appId;
+	private $appSecret;
 	private $debugCurlAccessToken;
 	private $debugCurlJSApiTicket;
 	private $debugFileAccessToken;
