@@ -118,16 +118,16 @@ class JSSDK {
 
 	//log到文件
 	private function log($filename,$content){
-		$timeArr = [
+		$contentArr = [
 			'response'=>$content,
 			'timestamp'=>time(),
 			'date' => date("d F Y H:i:s", time())
 		];
 		$fsize = filesize($filename);
 		if ($fsize > 1 * 1024 * 1024) {
-			$f = file_put_contents('log/'.$filename,json_encode($content)."\n");
+			$f = file_put_contents('log/'.$filename,json_encode($contentArr)."\n");
 		} else{
-			$f = file_put_contents('log/'.$filename,json_encode($content)."\n",FILE_APPEND);
+			$f = file_put_contents('log/'.$filename,json_encode($contentArr)."\n",FILE_APPEND);
 		}
 		return $f;
 	}
