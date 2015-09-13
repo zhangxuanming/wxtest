@@ -101,11 +101,8 @@ $signPackage = $jssdk->GetSignPackage();
 	</div>
 <!--	起始页-->
     <div class="row page pagestart full zh-hidden zh-yellow">
-<!--	    <div class="col-xs-12 v-center zh-story-title" style="top: 20%">-->
-<!---->
-<!--	    </div>-->
 	    <div class="col-xs-12 ps-block">
-		    <h3 class="center-block text-center zh-t-white"style="    float: left;
+		    <h3 class="center-block text-center zh-t-white" style="    float: left;
     margin-left: 5%;font-size: 1.2em;color: rgba(255, 255, 255, 0.78);">嗨！冒险 之</h3>
 		    <h1 class="center-block text-center zh-t-white" style="float: left;
     margin-left: 5%;
@@ -113,7 +110,7 @@ $signPackage = $jssdk->GetSignPackage();
 		    <h3 class="center-block zh-t-white"style="float: left;text-align: left;
     margin:5%;font-size: 1.2em;color: rgba(255, 255, 255, 0.78);line-height: 1.5em;">你从酒吧出来已是午夜，夜灯下无人的马路自有其浪漫风味。忽然你觉得脑后一疼……</h3>
 		    <div class="row zh-name-wrap">
-			    <input id="zh-name" class="" style="margin-left: 15px" type="text" maxlength="8" value="你的名字?" placeholder="默认嗨客">
+			    <input id="zh-name" class="zh-name" type="text" maxlength="8" value="你的名字?" placeholder="默认嗨客">
 		    </div>
 		    <div class="row">
 			    <button data-from="0" data-to="1" class="col-xs-10 col-xs-offset-1 btn btn-lg zh-btn zh-btn-yellow zh-btnstart"style="font-weight: bold;">开始嗨</button>
@@ -608,21 +605,14 @@ $signPackage = $jssdk->GetSignPackage();
 		$(".zh-btnwant").click(function(e){
 			zhGameLogic.restart();
 		});
-		$(".zh-img-switch").click(function(e){
-			var $img = $('.zh-img-block');
-			if (typeof($(this).data("flag")) == "undefined") {
-				$(this).data("flag",true);
-			}
-			if ($(this).data("flag")){
-				$img.hide();
-				$(this).data("flag",false);
-				$(this).html("显图");
-			}else{
-				$img.show();
-				$(this).data("flag",true);
-				$(this).html("藏图");
-			}
+		$('#zh-name').focus(function(e){
+//			TweenMax.to($(this),0.01,{y:-400,ease:Back.linear});
+			$(this).toggleClass("zh-name-active");
 		});
+		$('#zh-name').blur(function(e){
+			$(this).toggleClass("zh-name-active");
+//			TweenMax.to($(this),0.01,{y:0,ease:Back.linear});
+		})
 	};
 </script>
 </body>
