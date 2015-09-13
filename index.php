@@ -605,13 +605,12 @@ $signPackage = $jssdk->GetSignPackage();
 		$(".zh-btnwant").click(function(e){
 			zhGameLogic.restart();
 		});
-		$('#zh-name').focus(function(e){
-//			TweenMax.to($(this),0.01,{y:-400,ease:Back.linear});
+		var $zhname = $('#zh-name');
+		$zhname.focus(function(e){
 			$(this).toggleClass("zh-name-active");
 		});
-		$('#zh-name').blur(function(e){
+		$zhname.blur(function(e){
 			$(this).toggleClass("zh-name-active");
-//			TweenMax.to($(this),0.01,{y:0,ease:Back.linear});
 		})
 	};
 </script>
